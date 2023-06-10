@@ -1,3 +1,6 @@
+mod gridentify;
+
+use crate::gridentify::Game;
 use std::collections::HashMap;
 
 use skillratings::{
@@ -36,4 +39,6 @@ fn main() {
     }
 
     println!("{}", serde_json::to_string_pretty(&players).unwrap());
+    let game = Game::new();
+    println!("{:?}\n{}", game, game.score());
 }
