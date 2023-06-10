@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use skillratings::{
     glicko2::{glicko2, Glicko2Config, Glicko2Rating},
-    Outcomes
+    Outcomes,
 };
 
 use rand::prelude::*;
@@ -28,7 +28,7 @@ fn main() {
             &players.get(player_list[a]).unwrap(),
             &players.get(player_list[b]).unwrap(),
             &Outcomes::WIN,
-            &config
+            &config,
         );
 
         players.insert(player_list[a], new_a);
