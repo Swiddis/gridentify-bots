@@ -38,7 +38,14 @@ fn main() {
         players.insert(player_list[b], new_b);
     }
 
-    println!("{}", serde_json::to_string_pretty(&players).unwrap());
-    let game = Game::new();
-    println!("{:?}\n{}", game, game.score());
+    let mut game = Game::new(0);
+    while game.moves().len() > 0 {
+        let moves = game.moves();
+        game = game.child(&moves[0]);
+        for row in game.board.iter() {
+            println!("{:?}", row);
+        }
+        println!();
+    }
+    println!("{}", game.score());
 }
