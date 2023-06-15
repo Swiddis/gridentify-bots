@@ -12,11 +12,11 @@ use skillratings::{
 
 use rand::prelude::*;
 
-fn get_players() -> HashMap<&'static str, (Box<dyn Player>)> {
-    let mut players: HashMap<&str, (Box<dyn Player>)> = HashMap::new();
-    players.insert("random", (Box::new(Random {})));
-    players.insert("greedy", (Box::new(Greedy {})));
-    players.insert("most_followup", (Box::new(MostFollowup {})));
+fn get_players() -> HashMap<&'static str, Box<dyn Player>> {
+    let mut players: HashMap<&str, Box<dyn Player>> = HashMap::new();
+    players.insert("random", Box::new(Random {}));
+    players.insert("greedy", Box::new(Greedy {}));
+    players.insert("most_followup", Box::new(MostFollowup {}));
     players
 }
 
