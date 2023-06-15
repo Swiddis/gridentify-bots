@@ -70,9 +70,10 @@ fn main() {
     for i in 0..100 {
         println!("Game {i}");
         let (first, second) = make_match(&keys).unwrap();
+        let seed: u64 = rng.gen();
         let (player1, player2) = (players.get(first).unwrap(), players.get(second).unwrap());
-        println!("{first} - {second}");
-        let result = play_match(&player1, &player2, rng.gen());
+        println!("{first} - {second} ({seed})");
+        let result = play_match(&player1, &player2, seed);
         println!("{result:?}");
         let (new_first, new_second) = glicko2(
             &ratings.get(first).unwrap(),
@@ -86,6 +87,7 @@ fn main() {
 
     let mut keys = keys.clone();
     keys.sort_by_key(|k| -ratings.get(k).unwrap().rating as i64);
+    println!();
     for key in keys.iter() {
         println!("{key}\t{}", ratings.get(key).unwrap().rating as i64);
     }
