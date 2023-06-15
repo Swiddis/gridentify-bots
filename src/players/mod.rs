@@ -1,7 +1,9 @@
-pub mod random;
+use crate::gridentify;
+
 pub mod greedy;
 pub mod most_followup;
+pub mod random;
 
-trait Player {
-    fn get_move(game: &gridentify::Game) -> Vec<(usize, usize)>;
+pub trait Player {
+    fn get_move(&self, game: &gridentify::Game) -> Vec<(usize, usize)>;
 }

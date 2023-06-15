@@ -8,7 +8,7 @@ type Board = [[u64; SIZE]; SIZE];
 #[derive(Debug)]
 pub struct Game {
     pub board: Board,
-    rng: ChaCha8Rng
+    rng: ChaCha8Rng,
 }
 
 impl Game {
@@ -51,35 +51,37 @@ impl Game {
         visited: &mut [[bool; SIZE]; SIZE],
     ) {
         let (row, col) = start;
-    
+
         // If the square is already visited, return
         if visited[row][col] {
             return;
         }
-    
+
         visited[row][col] = true;
         current_move.push(start);
-    
+
         // Generate all possible directions (up, down, left, right)
         let directions = [(0, -1), (0, 1), (-1, 0), (1, 0)];
-    
+
         for (dr, dc) in directions.iter() {
             let next_row = row as i32 + dr;
             let next_col = col as i32 + dc;
-    
+
             if next_row >= 0 && next_row < SIZE as i32 && next_col >= 0 && next_col < SIZE as i32 {
                 let next_pos = (next_row as usize, next_col as usize);
-    
-                if self.board[next_pos.0][next_pos.1] == self.board[row][col] && !visited[next_pos.0][next_pos.1] {
+
+                if self.board[next_pos.0][next_pos.1] == self.board[row][col]
+                    && !visited[next_pos.0][next_pos.1]
+                {
                     self.generate_moves(next_pos, current_move, all_moves, visited);
                 }
             }
         }
-    
+
         if current_move.len() >= 2 {
             all_moves.push(current_move.clone());
         }
-    
+
         visited[row][col] = false;
         current_move.pop();
     }
@@ -88,15 +90,15 @@ impl Game {
         let mut rng = self.rng.clone();
         let mut board = self.board.clone();
         let mut total = 0;
-        for step in steps[..steps.len()-1].iter() {
+        for step in steps[..steps.len() - 1].iter() {
             total += board[step.0][step.1];
             board[step.0][step.1] = rng.gen_range(1..=3);
         }
-        let last = steps[steps.len()-1];
+        let last = steps[steps.len() - 1];
         board[last.0][last.1] += total;
         Self {
             board: board,
-            rng: rng
+            rng: rng,
         }
     }
 
@@ -107,7 +109,7 @@ impl Game {
     pub fn reseed(&self) -> Self {
         Self {
             board: self.board,
-            rng: ChaCha8Rng::from_seed(self.rng.clone().gen())
+            rng: ChaCha8Rng::from_seed(self.rng.clone().gen()),
         }
     }
 }
